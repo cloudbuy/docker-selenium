@@ -17,6 +17,6 @@ spec:
       {{- if .Values.edgeNode.noVnc.enabled }}
     - name: novnc-http
       protocol: TCP
-      port: 7600
-      targetPort: 7600
+      port: 7900
+      targetPort: 7900
       {{- end }}
