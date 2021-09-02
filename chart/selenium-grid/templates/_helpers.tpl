@@ -66,8 +66,8 @@ Firefox node fullname
 {{- end -}}
 
 {{/*
-Opera node fullname
+Edge node fullname
 */}}
-{{- define "seleniumGrid.operaNode.fullname" -}}
-{{- default "selenium-opera-node" .Values.operaNode.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- define "seleniumGrid.edgeNode.fullname" -}}
+{{- default "selenium-edge-node" .Values.edgeNode.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

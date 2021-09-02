@@ -1,11 +1,12 @@
 {{- if .Values.firefoxNode.noVnc.ingress.enabled -}}
+{{- $name := include "seleniumGrid.firefoxNode.fullname" . }}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "seleniumGrid.firefoxNode.fullname" . }}
+  name: {{ $name }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: selenium-hub
+    app: selenium-firefox-node
     {{- include "seleniumGrid.commonLabels" . | nindent 4 }}
     {{- with .Values.customLabels }}
       {{- toYaml . | nindent 4 }}
@@ -31,7 +32,7 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: {{ template "seleniumGrid.firefoxNode.fullname" . }}
+              serviceName: {{ $name }}
               servicePort: novnc-http
   {{- end }}
 {{- end }}
