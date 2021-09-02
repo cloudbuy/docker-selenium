@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "seleniumGrid.edgeNode.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: selenium-edge-node
+    {{- include "seleniumGrid.commonLabels" . | nindent 4 }}
+spec:
+  selector:
+    app: selenium-edge-node
+  ports:
+    - name: tcp-edge
+      protocol: TCP
+      port: {{ .Values.edgeNode.seleniumServicePort }}
+      targetPort: {{ .Values.edgeNode.seleniumPort }}

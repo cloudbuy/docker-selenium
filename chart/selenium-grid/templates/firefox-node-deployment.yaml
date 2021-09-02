@@ -35,8 +35,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.busConfigMap.name }}
-        {{- if gt (len .Values.firefoxNode.ports) 0 }}
+        {{- if or (gt (len .Values.firefoxNode.ports) 0) .Values.firefoxNode.noVnc.enabled }}
           ports:
+          {{- if .Values.firefoxNode.noVnc.enabled }}
+            - containerPort: 7600
+              protocol: TCP
+          {{- end}}
           {{- range .Values.firefoxNode.ports }}
             - containerPort: {{ . }}
               protocol: TCP

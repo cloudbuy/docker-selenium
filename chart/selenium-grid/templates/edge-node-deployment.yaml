@@ -1,43 +1,43 @@
-{{- if .Values.operaNode.enabled }}
+{{- if .Values.edgeNode.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "seleniumGrid.operaNode.fullname" . }}
+  name: {{ template "seleniumGrid.edgeNode.fullname" . }}
   namespace: {{ .Release.Namespace }}
-  labels: &opera_node_labels
-    app: selenium-opera-node
-    app.kubernetes.io/name: selenium-opera-node
+  labels: &edge_node_labels
+    app: selenium-edge-node
+    app.kubernetes.io/name: selenium-edge-node
     {{- include "seleniumGrid.commonLabels" . | nindent 4 }}
     {{- with .Values.customLabels }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
-  replicas: {{ .Values.operaNode.replicas }}
+  replicas: {{ .Values.edgeNode.replicas }}
   selector:
     matchLabels:
-      app: selenium-opera-node
+      app: selenium-edge-node
   template:
     metadata:
-      labels: *opera_node_labels
+      labels: *edge_node_labels
       annotations:
         checksum/event-bus-configmap: {{ include (print $.Template.BasePath "/event-bus-configmap.yaml") . | sha256sum }}
-        {{- with .Values.operaNode.annotations }}
+        {{- with .Values.edgeNode.annotations }}
           {{ toYaml . | nindent 8 }}
         {{- end }}
     spec:
       containers:
-        - name: selenium-opera-node
-          image: {{ printf "%s:%s" .Values.operaNode.imageName .Values.operaNode.imageTag }}
-          imagePullPolicy: {{ .Values.operaNode.imagePullPolicy }}
-        {{- with .Values.operaNode.extraEnvironmentVariables }}
+        - name: selenium-edge-node
+          image: {{ printf "%s:%s" .Values.edgeNode.imageName .Values.edgeNode.imageTag }}
+          imagePullPolicy: {{ .Values.edgeNode.imagePullPolicy }}
+        {{- with .Values.edgeNode.extraEnvironmentVariables }}
           env: {{- tpl (toYaml .) $ | nindent 12 }}
         {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ .Values.busConfigMap.name }}
-        {{- if gt (len .Values.operaNode.ports) 0 }}
+        {{- if gt (len .Values.edgeNode.ports) 0 }}
           ports:
-          {{- range .Values.operaNode.ports }}
+          {{- range .Values.edgeNode.ports }}
             - containerPort: {{ . }}
               protocol: TCP
           {{- end }}
@@ -45,7 +45,7 @@ spec:
           volumeMounts:
             - name: dshm
               mountPath: /dev/shm
-        {{- with .Values.operaNode.resources }}
+        {{- with .Values.edgeNode.resources }}
           resources: {{- toYaml . | nindent 12 }}
         {{- end }}
       volumes:
