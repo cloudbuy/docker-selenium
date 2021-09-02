@@ -14,3 +14,9 @@ spec:
       protocol: TCP
       port: {{ .Values.chromeNode.seleniumServicePort }}
       targetPort: {{ .Values.chromeNode.seleniumPort }}
+      {{- if .Values.chromeNode.noVnc.enabled }}
+    - name: novnc-http
+      protocol: TCP
+      port: 7600
+      targetPort: 7600
+      {{- end }}
