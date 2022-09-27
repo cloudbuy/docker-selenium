@@ -45,11 +45,17 @@ spec:
             {{- with .Values.edgeNode.extraEnvFrom }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
-        {{- if gt (len .Values.edgeNode.ports) 0 }}
+        {{- if or (gt (len .Values.edgeNode.ports) 0) .Values.edgeNode.noVnc.enabled }}
           ports:
+          {{- if .Values.edgeNode.noVnc.enabled }}
+            - containerPort: 7900
+              protocol: TCP
+          {{- end }}
+          {{- if gt (len .Values.edgeNode.ports) 0 }}
           {{- range .Values.edgeNode.ports }}
             - containerPort: {{ . }}
               protocol: TCP
+          {{- end }}
           {{- end }}
         {{- end }}
           volumeMounts:

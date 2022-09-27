@@ -301,6 +301,17 @@ chromeNode:
   # Image pull secret (see https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
   imagePullSecret: ""
 
+  noVnc:
+    enabled: false
+    ingress:
+      enabled: false
+      annotations: {}
+      className: ""
+      path: /
+      hosts:
+      - selenium-chrome-node.internal
+      tls: []
+
   # Port list to enable on container
   ports:
     - 5555
@@ -407,6 +418,17 @@ firefoxNode:
   # Image pull secret (see https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
   imagePullSecret: ""
 
+  noVnc:
+    enabled: false
+    ingress:
+      enabled: false
+      annotations: {}
+      className: ""
+      path: /
+      hosts:
+      - selenium-firefox-node.internal
+      tls: []
+
   # Port list to enable on container
   ports:
     - 5555
@@ -512,6 +534,17 @@ edgeNode:
   imagePullPolicy: IfNotPresent
   # Image pull secret (see https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
   imagePullSecret: ""
+
+  noVnc:
+    enabled: false
+    ingress:
+      enabled: false
+      annotations: {}
+      className: ""
+      path: /
+      hosts:
+      - selenium-edge-node.internal
+      tls: []
 
   ports:
     - 5555

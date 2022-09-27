@@ -20,4 +20,10 @@ spec:
       protocol: TCP
       port: {{ .Values.edgeNode.seleniumServicePort }}
       targetPort: {{ .Values.edgeNode.seleniumPort }}
+      {{- if .Values.edgeNode.noVnc.enabled }}
+    - name: novnc-http
+      protocol: TCP
+      port: 7900
+      targetPort: 7900
+      {{- end }}
 {{- end }}

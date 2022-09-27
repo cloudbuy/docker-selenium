@@ -45,11 +45,17 @@ spec:
             {{- with .Values.chromeNode.extraEnvFrom }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
-        {{- if gt (len .Values.chromeNode.ports) 0 }}
+        {{- if or (gt (len .Values.chromeNode.ports) 0) .Values.chromeNode.noVnc.enabled }}
           ports:
+          {{- if .Values.chromeNode.noVnc.enabled }}
+            - containerPort: 7900
+              protocol: TCP
+          {{- end }}
+          {{- if gt (len .Values.chromeNode.ports) 0 }}
           {{- range .Values.chromeNode.ports }}
             - containerPort: {{ . }}
               protocol: TCP
+          {{- end }}
           {{- end }}
         {{- end }}
           volumeMounts:
